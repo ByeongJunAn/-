@@ -64,5 +64,90 @@ select * from member where mem_name="블랙핑크";
 select * from marketdb.member where mem_number=4;
 select * from marketdb member where height <= 162;
 select * from marketdb.member where height >= 165 or mem_number>6;
-select *from marketdb.member where height between 163 and 165;
-select *form  ,c
+select * from marketdb.member where height >= 163 and height <=165 ;
+select * from marketdb.member where height between 163 and 165;
+select * from marketdb.member where  addr='경기' or addr='전남' or addr;
+select * from marketdb.member where  addr in('경기', '전남', '경남');
+select * from marketdb.member where mem_name like '%녀%';
+select * from marketdb.member where mem_name like '__핑크';
+
+select height from marketdb.member where mem_name='에이핑크';
+select mem_name, height from marketdb.member where height > 167;
+-- select mem_name, height from marketdb.member where height > 
+-- (select height from marketdb.member where addr= '경남'); 
+
+select mem_name, height from marketdb.member where height >= any 
+	(select height from marketdb.member where addr= '경남');
+    
+select mem_name, height from marketdb.member where height =
+	(select height from marketdb.member where  addr='경남');
+    
+select mem_name, height from marketdb.member where height
+	in (select height from marketdb.member where addr='경남');
+    
+select * from marketdb.member;
+select mem_name from marketdb.member order by mem_name; -- name 순서대로
+select * from maeketdb.member order by debut_date;
+select * from marketdb.member where addr='경남' order by mem_name;
+select * from marketdb.member order by debut_date desc;
+select mem_id '아이디', mem_name '이름', debut_date '데뷔일자', height '키'
+from marketdb.member  where height >= 162 order by debut_date desc;
+
+select * from marketdb.member where height >= 164
+	order by height desc, debut_date asc;  -- 같은 키라면 데뷔일자 순서대로 하겠다.
+    
+select * from marketdb.member order by height limit 3,2 ;--  height 0번지 부터 2개 읽어와라 
+
+select distinct addr from marketdb.member order by addr;
+
+create table memTBL (
+select mem_id, mem_name, addr from member);
+
+select * from memtbl; 
+
+select *from buy;
+
+select mem_id, amount from buy order by mem_id;
+
+select mem_id, sum(amount) from buy group by mem_id;
+
+select mem_id, '회원아이디', sum(price * amount) '총 구매 금액'
+	from buy group by mem_id;
+    
+select mem_id, avg(price *amount) '회원별 구매 금액'
+	from buy group by mem_id;
+    
+select avg(amount) '전체 평균 구매 갯수' from buy;
+
+select mem_id, avg(amount) '평균 구매 갯수'
+	from buy group by mem_id;
+    
+    
+select count(*) from marketdb.member;
+
+select count(phone1) from marketdb.member; -- 핸드폰1 을 가지고 있는 사람의 수
+
+select mem_name, max(height), min(height) from marketdb.member
+	group by mem_name;
+    
+    select mem_name, max(height), min(height) from marketdb.member;
+    
+    
+-- 회원별 총 구매 금액 
+select mem_id, sum(price * amount) '총 구매금액' from buy group by mem_id
+having sum(price * amount) > 1000;
+
+select mem_id, sum(price * amount) '총 구매금액' from buy group by mem_id
+having sum(price * amount) > 1000
+order by sum(price * amount) desc; 
+
+select num, group_name, sum(price * amount) '총 구매금액' 
+from buy 
+group by group_name, num
+with rollup;
+    
+select mem_name, height from marketdb.member where height = (select max(height) from marketdb.member)
+		or height = (select min(height) from marketdb.member);
+        
+
+   
